@@ -2,11 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   buildAgentForPeer,
+  buildBindingsForPeer,
   buildBindingForPeer,
   extractWhatsappSenderDigits,
   hasPeerBinding,
   isWhatsappEvent,
   upsertPeerRoute,
+  whatsappPeerIds,
 } from "../lib/routing.js";
 
 test("extracts sender from WhatsApp JID fields", () => {
@@ -53,6 +55,19 @@ test("builds an OpenClaw peer binding", () => {
   });
 });
 
+test("builds WhatsApp aliases for Mexico mobile marker variants", () => {
+  assert.deepEqual(whatsappPeerIds("5212282365609"), [
+    "+5212282365609",
+    "5212282365609",
+    "5212282365609@s.whatsapp.net",
+    "+522282365609",
+    "522282365609",
+    "522282365609@s.whatsapp.net",
+  ]);
+
+  assert.equal(buildBindingsForPeer("5212282365609").length, 6);
+});
+
 test("upserts agent and keeps fallback binding last", () => {
   const draft = {
     agents: {
@@ -78,6 +93,7 @@ test("upserts agent and keeps fallback binding last", () => {
   assert.equal(draft.agents.list.at(-1).model, "openrouter/example");
   assert.equal(hasPeerBinding(draft.bindings, "5212281340032"), true);
   assert.equal(draft.bindings.at(-1).agentId, "whatsapp");
+  assert.equal(draft.bindings.filter((binding) => binding.match?.peer).length, 6);
 });
 
 test("agent gets isolated workspace and agentDir", () => {
