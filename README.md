@@ -26,7 +26,7 @@ The native config path looked like it should solve the issue with `session.dmSco
 From a published Git repo:
 
 ```bash
-openclaw plugins install git:github.com/<owner>/openclaw-wa-auto-agent@main
+openclaw plugins install git:github.com/<owner>/openclaw-wa-auto-agent@master
 openclaw plugins enable wa-auto-agent
 openclaw config set plugins.entries.whatsapp.config.pluginHooks.messageReceived true --strict-json
 openclaw gateway restart
@@ -65,3 +65,5 @@ Set `ownNumbers` to the linked WhatsApp account number if self messages ever app
 This plugin can create the isolated route as soon as the WhatsApp plugin emits `message_received`. Depending on OpenClaw's inbound order, the very first message from a brand-new number may still hit the fallback agent, because the route did not exist before that message arrived. The important fix is that the next messages from that same number should route to its dedicated agent.
 
 If runtime hooks do not fire on Hostinger, use `tools/openclaw-wa-autobinder.mjs --apply --watch` as the sidecar fallback. It performs the same config mutation by polling logs.
+
+On the tested Hostinger OpenClaw instance, the Git installer cloned the repo but failed while moving it from `/tmp` to `/data` with `EXDEV: cross-device link not permitted`. In that environment, use a local path install if you can place files on the server, publish to npm/clawhub, or run the sidecar fallback from the operator machine.
