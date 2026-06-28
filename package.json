@@ -1,0 +1,34 @@
+{
+  "name": "openclaw-wa-auto-agent",
+  "version": "0.1.0",
+  "description": "Auto-create isolated OpenClaw agents and bindings for new WhatsApp direct-message senders.",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./lib/routing": "./lib/routing.js"
+  },
+  "scripts": {
+    "check": "node --check index.js && node --check lib/routing.js && node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=22.19"
+  },
+  "openclaw": {
+    "extensions": [
+      "./index.js"
+    ],
+    "compat": {
+      "pluginApi": ">=2026.5.17",
+      "minGatewayVersion": "2026.5.17"
+    }
+  },
+  "files": [
+    "index.js",
+    "lib/",
+    "openclaw.plugin.json",
+    "README.md"
+  ],
+  "license": "UNLICENSED",
+  "private": false
+}

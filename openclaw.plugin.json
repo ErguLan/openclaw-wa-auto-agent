@@ -1,0 +1,61 @@
+{
+  "id": "wa-auto-agent",
+  "name": "WhatsApp Auto Agent Binder",
+  "description": "Creates one isolated OpenClaw agent and peer binding for each new WhatsApp direct-message sender.",
+  "version": "0.1.0",
+  "activation": {
+    "onStartup": true
+  },
+  "requiresPlugins": [
+    "whatsapp"
+  ],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": {
+        "type": "boolean",
+        "default": true
+      },
+      "fallbackAgentId": {
+        "type": "string",
+        "default": "whatsapp"
+      },
+      "agentPrefix": {
+        "type": "string",
+        "default": "wa"
+      },
+      "accountId": {
+        "type": "string",
+        "default": "*"
+      },
+      "model": {
+        "type": "string",
+        "default": "openrouter/deepseek/deepseek-v4-flash"
+      },
+      "workspaceBase": {
+        "type": "string",
+        "default": "~/.openclaw"
+      },
+      "ownNumbers": {
+        "type": "array",
+        "default": [],
+        "items": {
+          "type": "string"
+        }
+      },
+      "dryRun": {
+        "type": "boolean",
+        "default": false
+      },
+      "logEvents": {
+        "type": "boolean",
+        "default": true
+      },
+      "restartReason": {
+        "type": "string",
+        "default": "wa-auto-agent added a WhatsApp peer binding"
+      }
+    }
+  }
+}
